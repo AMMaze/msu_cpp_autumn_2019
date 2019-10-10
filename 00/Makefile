@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-Wall --std=c++14
+CFLAGS=-g -Wall --std=c++14 -O2
 
 all:
 	$(CC) $(CFLAGS) sum_by_rows.cpp -o sum_by_rows.out

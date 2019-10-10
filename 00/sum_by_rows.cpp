@@ -1,7 +1,8 @@
 #include "timer.h"
 
+
 int main() {
-    const int n = 1000;
+    const int n = 1300;
     int arr[n][n];
 
     for (int i = 0; i < n; i++)
@@ -9,7 +10,7 @@ int main() {
             arr[i][j] = i * j;
 
     Timer t;
-    int sum = 0;
+    volatile int sum = 0;
 
     for (int i = 0; i < n; i++)
         for (int j = 0; j < n; j++)
