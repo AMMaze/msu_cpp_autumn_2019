@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 #include <iostream>
 #include <map>
+#include <cctype>
 
 std::map<char, BinOp> Tokenizer::BOPS = {
     {'+', [] (int a, int b) { return a + b; } }, 
@@ -16,7 +17,8 @@ void Tokenizer::parseInput(char *input) {
     TType prevType = Token::DELIM;
     for (char *c = input; *c != '\0'; ++c) {
         TType curType = checkType(*c);
-        if (curType != Token::DELIM && (curType == prevType || prevType == Token::DELIM)) 
+        if (curType != Token::DELIM && ((curType == prevType && prevType != Token::OP) 
+                    || prevType == Token::DELIM)) 
             lex.push_back(*c);
         else if (!lex.empty()){
             tokenList.emplace_back(lex, prevType, ((prevType == Token::OP) ? 
@@ -41,7 +43,8 @@ Token::Type Tokenizer::checkType(char c) {
     for (const char& it: DELIMETERS)
         if (it == c)
             return Token::DELIM;
-    return Token::NUMBER;
+    if (std::isdigit(c))
+        return Token::NUMBER;
 };
 
 void Tokenizer::printTokens() {
