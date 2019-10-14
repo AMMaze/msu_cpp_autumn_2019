@@ -1,6 +1,9 @@
 #pragma once
 
 #include<string>
+#include <functional>
+
+using BinOp = std::function<int(int, int)>;
 
 class Token {
 public:
@@ -18,9 +21,11 @@ public:
         return type;
     };
 
-    Token (std::string& str, Type t): value(str), type(t) {};
+    Token (std::string& str, Type t, const BinOp& bo): 
+        value(str), type(t), binOp(bo) {};
 
 private:
     std::string value;
     Type type;
+    BinOp binOp;
 };
