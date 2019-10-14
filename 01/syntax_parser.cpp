@@ -1,5 +1,6 @@
 #include "syntax_parser.h"
 #include <iostream>
+#include <stdexcept>
 
 int SyntaxParser::evaluate(std::vector<Token>& tokensList) {
    iter = tokensList.begin();
@@ -8,6 +9,9 @@ int SyntaxParser::evaluate(std::vector<Token>& tokensList) {
    expPlusMinus();
    _expPlusMinus();
    
+   if (operands.size() != 1)
+       throw std::invalid_argument("Invalid syntax");
+
    return operands.top();
 };
 
@@ -22,7 +26,8 @@ void SyntaxParser::_expPlusMinus() {
         Token op = *iter;
         iter++;
         expPlusMinus();
-        std::cout << "stack size: (+ -)" << operands.size() << std::endl;
+        if (operands.size() < 2)
+            throw std::invalid_argument("Invalid syntax: not enough operands");
         int op2 = operands.top();
         operands.pop();
         int op1 = operands.top();
@@ -40,14 +45,13 @@ void SyntaxParser::_expMultDiv() {
     if (iter != end && (!iter->getValue().compare("/") || 
                 !iter->getValue().compare("*"))) {
         Token op = *iter;
-        std::cout << op.getValue() << std::endl;
         iter++;
         expMultDiv();
-        std::cout << "stack size: (/ *)" << operands.size() << std::endl;
+        if (operands.size() < 2)
+            throw std::invalid_argument("Invalid syntax: not enough operands");
         int op2 = operands.top();
         operands.pop();
         int op1 = operands.top();
-        std::cout << op1 << "  " << op2 << std::endl;
         operands.pop();
         operands.push(op.getBinOp()(op1, op2));
     }
@@ -61,12 +65,11 @@ void SyntaxParser::expUnary() {
 void SyntaxParser::_expUnary() {
     if (iter != end && !iter->getValue().compare("-")) {
         Token op = *iter;
-        std::cout << op.getValue() << std::endl;
         iter++;
         expUnary();
-        std::cout << "stack size: (un)" << operands.size() << std::endl;
+        if (operands.size() < 2)
+            throw std::invalid_argument("Invalid syntax: not enough operands");
         int op1 = operands.top();
-        std::cout << op1 << std::endl;
         operands.pop();
         operands.push(-op1);
     }
@@ -75,7 +78,6 @@ void SyntaxParser::_expUnary() {
 void SyntaxParser::expConst() {
     if (iter != end && iter->getType() == Token::NUMBER) {
         operands.push(std::stoi(iter->getValue()));
-        std::cout << std::stoi(iter->getValue()) << " stack size : " << operands.size() << std::endl;
         iter++;
     }
 };

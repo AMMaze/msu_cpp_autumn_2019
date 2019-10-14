@@ -1,6 +1,7 @@
 #include "tokenizer.h"
 #include "syntax_parser.h"
 #include <iostream>
+#include <stdexcept>
 
 int main(int argc, char *argv[]) {
 
@@ -8,14 +9,14 @@ int main(int argc, char *argv[]) {
         return 1;
 
     Tokenizer tokenizer;
-
-    tokenizer.parseInput(argv[1]);
-    tokenizer.printTokens(); 
-
     SyntaxParser syntaxParser;
-
-    std::cout << syntaxParser.evaluate(tokenizer.getTokenList()) << std::endl;
+    try {
+        tokenizer.parseInput(argv[1]);
+        //tokenizer.printTokens(); 
+        std::cout << syntaxParser.evaluate(tokenizer.getTokenList()) << std::endl;
+    } catch (const std::invalid_argument& e) {
+        std::cout << e.what()  << std::endl;
+    }
 
     return 0;
-
 };

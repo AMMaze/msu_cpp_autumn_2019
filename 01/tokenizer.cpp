@@ -2,6 +2,7 @@
 #include <iostream>
 #include <map>
 #include <cctype>
+#include <stdexcept>
 
 std::map<char, BinOp> Tokenizer::BOPS = {
     {'+', [] (int a, int b) { return a + b; } }, 
@@ -45,6 +46,7 @@ Token::Type Tokenizer::checkType(char c) {
             return Token::DELIM;
     if (std::isdigit(c))
         return Token::NUMBER;
+    throw std::invalid_argument(std::string("Invalid character: ") + c);
 };
 
 void Tokenizer::printTokens() {
