@@ -10,6 +10,7 @@ public:
     enum Type {
         NUMBER,
         OP,
+        UOP,
         DELIM
     };
 
@@ -19,6 +20,10 @@ public:
 
     Type getType() {
         return type;
+    };
+
+    BinOp& getBinOp() {
+        return binOp;
     };
 
     Token (std::string& str, Type t, const BinOp& bo): 

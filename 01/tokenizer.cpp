@@ -27,6 +27,11 @@ void Tokenizer::parseInput(std::string& input) {
         }
         prevType = curType;
     }
+    
+    if (!lex.empty()){
+        tokenList.emplace_back(lex, prevType, ((prevType == Token::OP) ? 
+                    BOPS[lex[0]] : [] (int a, int b) {return 0;}));
+    }
 };
 
 Token::Type Tokenizer::checkType(char c) {
