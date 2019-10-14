@@ -16,7 +16,7 @@ class Tokenizer {
     TType checkType(char c);
 
 public:
-    void parseInput(std::string& input);
+    void parseInput(char *input);
 
     auto& getTokenList() {
         return tokenList;

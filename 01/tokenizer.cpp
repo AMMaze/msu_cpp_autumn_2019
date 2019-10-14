@@ -11,19 +11,19 @@ std::map<char, BinOp> Tokenizer::BOPS = {
 const char Tokenizer::UOPS[] = {'-'};
 const char Tokenizer::DELIMETERS[] = {' '};
 
-void Tokenizer::parseInput(std::string& input) {
+void Tokenizer::parseInput(char *input) {
     std::string lex;
     TType prevType = Token::DELIM;
-    for (char c: input) {
-        TType curType = checkType(c);
+    for (char *c = input; *c != '\0'; ++c) {
+        TType curType = checkType(*c);
         if (curType != Token::DELIM && (curType == prevType || prevType == Token::DELIM)) 
-            lex.push_back(c);
+            lex.push_back(*c);
         else if (!lex.empty()){
             tokenList.emplace_back(lex, prevType, ((prevType == Token::OP) ? 
                     BOPS[lex[0]] : [] (int a, int b) {return 0;}));
             lex.clear();
             if (curType != Token::DELIM)
-                lex.push_back(c);
+                lex.push_back(*c);
         }
         prevType = curType;
     }
