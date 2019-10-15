@@ -22,9 +22,5 @@ public:
         return tokenList;
     };
 
-    Tokenizer() {
-        tokenList = std::vector<Token>();
-    };
-
     void printTokens();
 };
