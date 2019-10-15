@@ -8,8 +8,7 @@ using TType = Token::Type;
 class Tokenizer {
     std::vector<Token> tokenList;
 
-    //can't pass const members to Token constructor
-    static std::map<char, BinOp> BOPS;
+    const static std::map<char, BinOp> BOPS;
     const static char UOPS[];
     const static char DELIMETERS[];
     

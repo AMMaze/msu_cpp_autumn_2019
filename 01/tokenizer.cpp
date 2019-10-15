@@ -4,7 +4,7 @@
 #include <cctype>
 #include <stdexcept>
 
-std::map<char, BinOp> Tokenizer::BOPS = {
+const std::map<char, BinOp> Tokenizer::BOPS = {
     {'+', [] (int a, int b) { return a + b; } }, 
     {'-', [] (int a, int b) { return a - b; } }, 
     {'*', [] (int a, int b) { return a * b; } }, 
@@ -23,7 +23,7 @@ void Tokenizer::parseInput(const char *input) {
             lex.push_back(*c);
         else if (!lex.empty()){
             tokenList.emplace_back(lex, prevType, ((prevType == Token::OP) ? 
-                    BOPS[lex[0]] : [] (int a, int b) {return 0;}));
+                    BOPS.find(lex[0])->second : [] (int a, int b) {return 0;}));
             lex.clear();
             if (curType != Token::DELIM)
                 lex.push_back(*c);
@@ -33,7 +33,7 @@ void Tokenizer::parseInput(const char *input) {
     
     if (!lex.empty()){
         tokenList.emplace_back(lex, prevType, ((prevType == Token::OP) ? 
-                    BOPS[lex[0]] : [] (int a, int b) {return 0;}));
+                    BOPS.find(lex[0])->second : [] (int a, int b) {return 0;}));
     }
 };
 
