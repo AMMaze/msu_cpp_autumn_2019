@@ -18,7 +18,7 @@ class Tokenizer {
 public:
     void parseInput(const char *input);
 
-    auto& getTokenList() {
+    const auto& getTokenList() {
         return tokenList;
     };
 
