@@ -46,7 +46,7 @@ Token::Type Tokenizer::checkType(char c) {
             return Token::DELIM;
     if (std::isdigit(c))
         return Token::NUMBER;
-    throw std::invalid_argument(std::string("Invalid character: ") + c);
+    throw std::invalid_argument(std::string("Invalid character: '") + c + "'");
 };
 
 void Tokenizer::printTokens() {

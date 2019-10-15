@@ -11,6 +11,9 @@ run: calc
 %:
 	@true
 
+test: all
+	python3 tests.py 
+
 .PHONY: clean
 clean:
 	rm calc

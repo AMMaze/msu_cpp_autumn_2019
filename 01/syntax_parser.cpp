@@ -9,7 +9,7 @@ int SyntaxParser::evaluate(std::vector<Token>& tokensList) {
    expPlusMinus();
    _expPlusMinus();
    
-   if (operands.size() != 1)
+   if (operands.size() != 1 || iter != end)
        throw std::invalid_argument("Invalid syntax");
 
    return operands.top();
@@ -67,7 +67,7 @@ void SyntaxParser::_expUnary() {
         Token op = *iter;
         iter++;
         expUnary();
-        if (operands.size() < 2)
+        if (operands.size() < 1)
             throw std::invalid_argument("Invalid syntax: not enough operands");
         int op1 = operands.top();
         operands.pop();
