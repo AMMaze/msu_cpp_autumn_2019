@@ -13,10 +13,10 @@ class Tokenizer {
     const static char UOPS[];
     const static char DELIMETERS[];
     
-    TType checkType(char c);
+    TType checkType(const char c);
 
 public:
-    void parseInput(char *input);
+    void parseInput(const char *input);
 
     auto& getTokenList() {
         return tokenList;

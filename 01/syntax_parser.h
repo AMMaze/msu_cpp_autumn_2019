@@ -5,7 +5,7 @@
 
 class SyntaxParser {
     std::stack<int> operands;
-    std::vector<Token>::iterator iter, end; 
+    std::vector<Token>::const_iterator iter, end; 
 
     void expPlusMinus();
     void _expPlusMinus();
@@ -19,7 +19,7 @@ class SyntaxParser {
     void expConst();
 
 public:
-    int evaluate(std::vector<Token>& tokensList);    
+    int evaluate(const std::vector<Token>& tokensList);    
 
     SyntaxParser(): operands(std::stack<int>()) {};
 };

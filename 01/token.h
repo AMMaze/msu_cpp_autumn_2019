@@ -14,15 +14,15 @@ public:
         DELIM
     };
 
-    std::string& getValue() {
+    const std::string& getValue() const {
         return value;
     };
 
-    Type getType() {
+    Type getType() const {
         return type;
     };
 
-    BinOp& getBinOp() {
+    const BinOp& getBinOp() const {
         return binOp;
     };
 

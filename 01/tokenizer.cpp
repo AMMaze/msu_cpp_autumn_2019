@@ -13,10 +13,10 @@ std::map<char, BinOp> Tokenizer::BOPS = {
 const char Tokenizer::UOPS[] = {'-'};
 const char Tokenizer::DELIMETERS[] = {' '};
 
-void Tokenizer::parseInput(char *input) {
+void Tokenizer::parseInput(const char *input) {
     std::string lex;
     TType prevType = Token::DELIM;
-    for (char *c = input; *c != '\0'; ++c) {
+    for (const char *c = input; *c != '\0'; ++c) {
         TType curType = checkType(*c);
         if (curType != Token::DELIM && ((curType == prevType && prevType != Token::OP) 
                     || prevType == Token::DELIM)) 
@@ -37,7 +37,7 @@ void Tokenizer::parseInput(char *input) {
     }
 };
 
-Token::Type Tokenizer::checkType(char c) {
+Token::Type Tokenizer::checkType(const char c) {
     for (auto const& it : BOPS)
         if (it.first == c)
             return Token::OP;

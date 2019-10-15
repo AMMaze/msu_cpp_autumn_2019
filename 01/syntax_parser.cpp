@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 
-int SyntaxParser::evaluate(std::vector<Token>& tokensList) {
+int SyntaxParser::evaluate(const std::vector<Token>& tokensList) {
    iter = tokensList.begin();
    end = tokensList.end();
 
