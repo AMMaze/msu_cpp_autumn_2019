@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
 
     if (argc != 2) {
-        std::cout << "Incorrect number of arguments. Must be 2"
+        std::cout << "Incorrect number of arguments. Must be 2\n";
         return 1;
     }
 
