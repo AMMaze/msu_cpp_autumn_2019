@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-g -Wall --std=c++17
+CFLAGS=-g -Wall --std=c++14
 
 all:
 	$(CC) $(CFLAGS) *.cpp -o calc

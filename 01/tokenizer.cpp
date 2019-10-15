@@ -38,8 +38,8 @@ void Tokenizer::parseInput(char *input) {
 };
 
 Token::Type Tokenizer::checkType(char c) {
-    for (auto const& [op, fun] : BOPS)
-        if (op == c)
+    for (auto const& it : BOPS)
+        if (it.first == c)
             return Token::OP;
     for (const char& it: DELIMETERS)
         if (it == c)
