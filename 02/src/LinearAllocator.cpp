@@ -1,7 +1,7 @@
 #include "LinearAllocator.h"
 
 LinearAllocator::LinearAllocator (std::size_t maxSize): 
-    maxSize(maxSize), length(0), start(new char(maxSize)) {};
+    maxSize(maxSize), length(0), start(new char[maxSize]) {};
 
 char* LinearAllocator::alloc (std::size_t size) {
     if (maxSize - length >= size) {
@@ -25,5 +25,6 @@ std::size_t LinearAllocator::capacity() {
 };
 
 LinearAllocator::~LinearAllocator() {
-    delete start;
+    delete[] start;
+    start = nullptr;
 };

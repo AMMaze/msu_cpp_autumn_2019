@@ -18,9 +18,10 @@ int main() {
     
     for (int i = 0; i < 5; i++) 
         assert(i1[i] == i * 5);
-    
+    std::cout << std::endl;
     for (int i = 0; i < 4; i++) 
-        assert(i2[i] == i * 4);
+        assert(i2[i] == i * 4)
+    std::cout << std::endl;
 
     assert(i3 == nullptr);
 
