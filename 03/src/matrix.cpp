@@ -3,65 +3,59 @@
 #include <algorithm>
 #include <stdexcept>
 
-Matrix::Matrix (uint r, uint c): 
+Matrix::Matrix (size_t r, size_t c): 
     rows(r), cols(c), matrix(new int[r*c]()) {}
 
-Matrix::Matrix(uint r, uint c, int init): 
+Matrix::Matrix(size_t r, size_t c, int init): 
     rows(r), cols(c) {
     matrix = new int[r*c]; 
     std::fill_n(matrix, rows * cols, init);
 }
 
-Matrix::Matrix(uint r, uint c, int *m): rows(r), cols(c), matrix(m) {}
+Matrix::Matrix(size_t r, size_t c, int *m): rows(r), cols(c), matrix(m) {}
 
 Matrix::~Matrix() {
     delete[] matrix;
 }
 
 
-bool Matrix::operator== (Matrix &matr) {
+bool Matrix::operator== (const Matrix &matr) {
     if (rows != matr.getRows() || cols != matr.getColumns())
         return false;
-    for (uint i = 0; i < rows; i++)
-        for (uint j = 0; j < cols; j++)
-            if (matrix[i * cols + j] != matr[i][j])
+    for (size_t i = 0; i < rows; i++)
+        for (size_t j = 0; j < cols; j++)
+            if (matrix[i * cols + j] != matr.matrix[i * cols + j])
                 return false;
     return true;
 };
 
-bool Matrix::operator!= (Matrix &matr) {
-    if (rows != matr.getRows() || cols != matr.getColumns())
-        return true;
-    for (uint i = 0; i < rows; i++)
-        for (uint j = 0; j < cols; j++)
-            if (matrix[i * cols + j] != matr[i][j])
-                return true;
-    return false;
+bool Matrix::operator!= (const Matrix &matr) {
+    return !(*this == matr);
 }
     
 Matrix& Matrix::operator*= (int n) {
-    for (uint i = 0; i < rows * cols; i++)
+    for (size_t i = 0; i < rows * cols; i++)
         matrix[i] *= n;
     return *this; 
 }
 
-uint Matrix::getRows() const {
+size_t Matrix::getRows() const {
     return rows;
 }
 
-uint Matrix::getColumns() const {
+size_t Matrix::getColumns() const {
     return cols;
 }
 
-Matrix::Row::Row(uint c, int *r): cols(c), row(r) {};
+Matrix::Row::Row(size_t c, int *r): cols(c), row(r) {};
 
-int& Matrix::Row::operator[] (uint i) {
+int& Matrix::Row::operator[] (size_t i) {
     if (i >= cols)
         throw std::out_of_range("");
     return row[i];
 }
     
-Matrix::Row Matrix::operator[] (uint i) {
+Matrix::Row Matrix::operator[] (size_t i) {
     if (i >= rows) {
         throw std::out_of_range("");
     } 

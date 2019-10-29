@@ -1,30 +1,29 @@
-using uint = unsigned int;
+#include <cstring>
 
 class Matrix {
-    uint rows, cols;
+    size_t rows, cols;
     int *matrix;
 
     class Row {
-        uint cols;
+        size_t cols;
         int *row;
     public:
-        Row(uint c, int *r);
-        int& operator[] (uint i);
+        Row(size_t c, int *r);
+        int& operator[] (size_t i);
     };
 
 public:
-    Matrix(uint r, uint c);
-    Matrix(uint r, uint c, int init);
-    Matrix(uint r, uint c, int *m);
+    Matrix(size_t r, size_t c);
+    Matrix(size_t r, size_t c, int init);
+    Matrix(size_t r, size_t c, int *m);
     ~Matrix();
 
-    bool operator== (Matrix &matr);
-    bool operator!= (Matrix &matr);
+    bool operator== (const Matrix &matr);
+    bool operator!= (const Matrix &matr);
     Matrix& operator*= (int n);
-    //friend Matrix& operator*= (Matrix& m, int n);
 
-    uint getRows() const;
-    uint getColumns() const;
+    size_t getRows() const;
+    size_t getColumns() const;
 
-    Row operator[] (uint i);
+    Row operator[] (size_t i);
 };
