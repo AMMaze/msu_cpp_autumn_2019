@@ -1,9 +1,15 @@
 #include "matrix.h"
 #include <cstring>
+#include <algorithm>
 #include <stdexcept>
 
-Matrix::Matrix (uint r, uint c): rows(r), cols(c) {
-    matrix = new int[r*c]();   
+Matrix::Matrix (uint r, uint c): 
+    rows(r), cols(c), matrix(new int[r*c]()) {}
+
+Matrix::Matrix(uint r, uint c, int init): 
+    rows(r), cols(c) {
+    matrix = new int[r*c]; 
+    std::fill_n(matrix, rows * cols, init);
 }
 
 Matrix::Matrix(uint r, uint c, int *m): rows(r), cols(c), matrix(m) {}

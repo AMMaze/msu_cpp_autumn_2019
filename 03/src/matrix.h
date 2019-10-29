@@ -14,6 +14,7 @@ class Matrix {
 
 public:
     Matrix(uint r, uint c);
+    Matrix(uint r, uint c, int init);
     Matrix(uint r, uint c, int *m);
     ~Matrix();
 

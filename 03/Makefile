@@ -4,7 +4,7 @@ SOURCES=src/*.cpp
 TESTS=tests/*.cpp
 
 all:
-	$(CC) $(CFLAGS) $(SOURCES) -o matrix
+	$(CC) $(CFLAGS) $(SOURCES) main.cpp -o matrix
 
 run: all
 	./matrix
