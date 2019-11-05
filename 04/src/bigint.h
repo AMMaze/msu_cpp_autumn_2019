@@ -19,7 +19,9 @@ public:
     BigInt(const BigInt& n);
     ~BigInt();
 
-    BigInt& operator=(const Bigint& n);
+    friend void swap(BigInt& first, BigInt& second);
+
+    BigInt& operator=(const BigInt& n);
     BigInt& operator=(int n);
     BigInt& operator+(const BigInt& n);
     BigInt& operator+(int n);

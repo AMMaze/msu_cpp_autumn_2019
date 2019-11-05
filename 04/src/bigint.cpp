@@ -31,6 +31,13 @@ _bInt::~_bigInt() {
 }
 
 
+void swap(BigInt& first, BigInt& second) {
+    std::swap(first.length, second.length);
+    std::swap(first.isPositive, second.isPositive);
+    std::swap(first.numHigh, second.numHigh);
+    std::swap(first.numLow, second.numLow);
+};
+
 
 /*
  *  BigInt constructors/destructors
@@ -87,9 +94,18 @@ BigInt::~BigInt() {
 /*
  *  assignments and arithmetic operators
  */
+BigInt& BigInt::operator=(const BigInt& n) {
+    BigInt tmp(n);
+    swap(*this, tmp);
+    return *this;
+}
 
 
-
+BigInt& BigInt::operator=(int n) {
+    BigInt tmp(n);
+    swap(*this, tmp);
+    return *this;
+}
 
 /*
  *  _bigInt stream output
@@ -107,3 +123,4 @@ std::ostream &operator<<(std::ostream &os, const BigInt &obj) {
     os << str;
     return os;
 }
+
