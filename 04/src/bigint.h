@@ -23,18 +23,25 @@ public:
 
     BigInt& operator=(const BigInt& n);
     BigInt& operator=(int n);
-    BigInt& operator+(const BigInt& n);
-    BigInt& operator+(int n);
-    BigInt& operator-(int n);
-    BigInt& operator-(const BigInt& n);
-    BigInt& operator-();
+    BigInt operator+(const BigInt& n);
+    BigInt operator+(int n);
+    BigInt operator-(int n);
+    BigInt operator-(const BigInt& n);
+    BigInt operator-();
 
-    bool operator==(const BigInt& n);
-    bool operator!=(const BigInt& n);
-    bool operator<(const BigInt& n);
-    bool operator<=(const BigInt& n);
-    bool operator>(const BigInt& n);
-    bool operator>=(const BigInt& n);
+    bool operator==(const BigInt& n) const;
+    bool operator!=(const BigInt& n) const;
+    bool operator<(const BigInt& n) const;
+    bool operator<=(const BigInt& n) const;
+    bool operator>(const BigInt& n) const;
+    bool operator>=(const BigInt& n) const;
+
+    bool operator==(int n) const;
+    bool operator!=(int n) const;
+    bool operator<(int n) const;
+    bool operator<=(int n) const;
+    bool operator>(int n) const;
+    bool operator>=(int n) const;
 
     friend std::ostream &operator<<(std::ostream &os, const BigInt& obj);
 
