@@ -9,29 +9,47 @@ using _bInt = BigInt::_bigInt;
  *  _bigInt constructors/destructors
  */
 _bInt::_bigInt(): 
-    digit(new char()), prev(nullptr), next(nullptr) {
-    *digit = 0;
+    digit(0), prev(nullptr), next(nullptr) {
 }
 
 _bInt::_bigInt(char d): 
-    digit(new char()), prev(nullptr), next(nullptr) {
-    *digit = d;
+    digit(d), prev(nullptr), next(nullptr) {
 }
 
 _bInt::_bigInt(char d, _bInt *p): 
-    digit(new char()), prev(p), next(nullptr) {
-    *digit = d;
+    digit(d), prev(p), next(nullptr) {
 }
 
 _bInt::_bigInt(char d, _bInt *p, _bInt *n): 
-    digit(new char()), prev(p), next(n) {
-    *digit = d;
+    digit(d), prev(p), next(n) {
 }
 
 _bInt::~_bigInt() {
-    delete digit;
 }
 
+char _bInt::getDigit() {
+    return digit;
+}
+
+void _bInt::setDigit(char d) {
+    digit = d;
+}
+
+_bInt* _bInt::getPrev() {
+    return prev;
+}
+
+void _bInt::setPrev(_bInt* p) {
+    prev = p;
+}
+
+_bInt* _bInt::getNext() {
+    return next;
+}
+
+void _bInt::setNext(_bInt* p) {
+    next = p;
+}
 
 void swap(BigInt& first, BigInt& second) {
     std::swap(first.length, second.length);
@@ -55,36 +73,36 @@ BigInt::BigInt(int n):
     length = std::floor(std::log10(n) + 1);
     char d = n % 10;
     n /= 10;
-    *(numHigh->digit) = d;
+    numHigh->setDigit(d);
     for (int i = 0; i < length - 1; i++) {
         d = n % 10;
         n /= 10;
-        numHigh->prev = new _bInt(d);
+        numHigh->setPrev(new _bInt(d));
         _bInt *tmp = numHigh;
-        numHigh = numHigh->prev;
-        numHigh->next = tmp;
+        numHigh = numHigh->getPrev();
+        numHigh->setNext(tmp);
     }
 }
 
 BigInt::BigInt(const BigInt& n) {
     length = n.length;
     isPositive = n.isPositive;
-    numHigh = new _bInt(*(n.numHigh->digit));
+    numHigh = new _bInt(n.numHigh->getDigit());
     numLow = numHigh;
     _bInt *p = n.numHigh;
-    while(p->next != nullptr) {
-        numLow->next = new _bInt(*(p->next->digit));
-        numLow->next->prev = numLow;
-        numLow = numLow->next;
-        p = p->next;
+    while(p->getNext() != nullptr) {
+        numLow->setNext(new _bInt(p->getNext()->getDigit()));
+        numLow->getNext()->setPrev(numLow);
+        numLow = numLow->getNext();
+        p = p->getNext();
     }
 }
 
 BigInt::~BigInt() {
     _bInt *p = numHigh;
-    while (p->next != nullptr) {
-        p = p->next;
-        delete p->prev;
+    while (p->getNext() != nullptr) {
+        p = p->getNext();
+        delete p->getPrev();
     }
     delete p;
 }
@@ -117,39 +135,39 @@ BigInt BigInt::operator+(const BigInt& n) {
         res.isPositive = !res.isPositive;
         return res;
     }
-    while (p2->prev != nullptr) {
-        carry = *(p1->digit) + *(p2->digit) + carry;
-        *(p1->digit) = carry % 10;
-         carry /= 10;
-        p2 = p2->prev;
-        if (p1->prev == nullptr) { 
-            p1->prev = new _bInt(0, nullptr, p1);
-            res.numHigh = p1->prev;
+    while (p2->getPrev() != nullptr) {
+        carry = p1->getDigit() + p2->getDigit() + carry;
+        p1->setDigit(carry % 10);
+        carry /= 10;
+        p2 = p2->getPrev();
+        if (p1->getPrev() == nullptr) { 
+            p1->setPrev(new _bInt(0, nullptr, p1));
+            res.numHigh = p1->getPrev();
             res.length++;
         }
-        p1 = p1->prev;
+        p1 = p1->getPrev();
     }
-    carry = *(p1->digit) + *(p2->digit) + carry;
-    *(p1->digit) = carry % 10;
+    carry = p1->getDigit() + p2->getDigit() + carry;
+    p1->setDigit(carry % 10);
     carry /= 10;
-    if (p1->prev == nullptr && p2->prev == nullptr) {
+    if (p1->getPrev() == nullptr && p2->getPrev() == nullptr) {
         if (carry) {
-            res.numHigh->prev = new _bInt(1);
-            res.numHigh->prev->next = res.numHigh;
-            res.numHigh = res.numHigh->prev;
+            res.numHigh->setPrev(new _bInt(1));
+            res.numHigh->getPrev()->setNext(res.numHigh);
+            res.numHigh = res.numHigh->getPrev();
             res.length += 1;
         }
-    } else if (p1->prev != nullptr && p2->prev == nullptr) {
-        *(p1->prev->digit) += carry;
-        while(p1->prev != nullptr && *(p1->prev->digit) == 10) {
-            p1 = p1->prev;
-            if (p1->prev == nullptr) {
-                p1->prev = new _bInt(0, nullptr, p1);
+    } else if (p1->getPrev() != nullptr && p2->getPrev() == nullptr) {
+        p1->getPrev()->setDigit(p1->getPrev()->getDigit() + carry);
+        while(p1->getPrev() != nullptr && p1->getPrev()->getDigit() == 10) {
+            p1 = p1->getPrev();
+            if (p1->getPrev() == nullptr) {
+                p1->setPrev(new _bInt(0, nullptr, p1));
                 length++;
-                res.numHigh = p1->prev;
+                res.numHigh = p1->getPrev();
             }
-            *(p1->digit) = 0;
-            *(p1->prev->digit) += 1;
+            p1->setDigit(0);
+            p1->getPrev()->setDigit(p1->getPrev()->getDigit() + 1);
         }    
     }
 
@@ -178,39 +196,39 @@ BigInt BigInt::operator-(const BigInt& n) {
     p1 = res.numLow;
     char carry = 0;
     while(p2 != nullptr) {
-        char sub = *p1->digit - *p2->digit - carry;
+        char sub = p1->getDigit() - p2->getDigit() - carry;
         if (sub < 0) {
             sub += 10;
             carry = 1;
         } else 
             carry = 0;
 
-        *p1->digit = sub;
-        p1 = p1 -> prev;
-        p2 = p2 -> prev;
+        p1->setDigit(sub);
+        p1 = p1 -> getPrev();
+        p2 = p2 -> getPrev();
     }
 
     while (p1 != nullptr) {
-        char sub = *p1->digit - carry;
+        char sub = p1->getDigit() - carry;
         if (sub < 0) {
             sub += 10;
             carry = 1;
         } else 
             carry = 0;
-        *p1->digit = sub;
-        p1 = p1 -> prev;
+        p1->setDigit(sub);
+        p1 = p1 -> getPrev();
     }
     
 
-    while (*res.numHigh->digit == 0 && res.length > 1) {
+    while (res.numHigh->getDigit() == 0 && res.length > 1) {
         _bInt *tmp = res.numHigh;
-        res.numHigh = res.numHigh->next;
+        res.numHigh = res.numHigh->getNext();
         delete tmp;
-        res.numHigh->prev = nullptr;
+        res.numHigh->setPrev(nullptr);
         res.length--;
     }
 
-    if (*res.numHigh -> digit == 0)
+    if (res.numHigh -> getDigit() == 0)
         res.isPositive = true;
 
 
@@ -250,12 +268,12 @@ bool BigInt::operator<(const BigInt& n) const {
             || ((length > n.length) && !isPositive);
     _bInt *p1 = numHigh, *p2 = n.numHigh;
     while (p1 != nullptr && p2 != nullptr) {
-        char d1 = *p1->digit, d2 = *p2->digit;
+        char d1 = p1->getDigit(), d2 = p2->getDigit();
         if(d1 != d2)
             return ((d1 < d2) && isPositive) 
                 || ((d1 > d2) && !isPositive);
-        p1 = p1->next;
-        p2 = p2->next;
+        p1 = p1->getNext();
+        p2 = p2->getNext();
     }
     return false;
 }
@@ -304,11 +322,11 @@ std::ostream &operator<<(std::ostream &os, const BigInt &obj) {
     std::string str(len, '-');
     _bInt *p = obj.numHigh; 
     int i = obj.isPositive ? 0 : 1;
-    while(p->next != nullptr) {
-        str[i++] = '0' + *(p->digit);
-        p = p->next;
+    while(p->getNext() != nullptr) {
+        str[i++] = '0' + p->getDigit();
+        p = p->getNext();
     }
-    str[len - 1] = '0' + *(p->digit);
+    str[len - 1] = '0' + p->getDigit();
     os << str;
     return os;
 }

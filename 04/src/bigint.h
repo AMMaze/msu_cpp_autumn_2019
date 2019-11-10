@@ -4,14 +4,22 @@
 class BigInt {
 public:
     struct _bigInt {
-        char *digit;
-        _bigInt  *prev, *next;
-
         _bigInt();
         _bigInt(char d);
         _bigInt(char d, _bigInt *p);
         _bigInt(char d, _bigInt *p, _bigInt *n);
         ~_bigInt();
+
+        char getDigit();
+        void setDigit(char d);
+        _bigInt* getPrev();
+        void setPrev(_bigInt* p);
+        _bigInt* getNext();
+        void setNext(_bigInt* p);
+
+    private:
+        char digit;
+        _bigInt  *prev, *next;
     };
 
     BigInt();
