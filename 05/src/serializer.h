@@ -39,15 +39,16 @@ private:
     template <class T, class... TArgs>
     Error process(T&& arg, TArgs&&... args) {
         if constexpr (std::is_same<std::decay_t<T>, uint64_t>::value) 
-            out_ << arg << Separator;
+            out_ << arg;
         else if constexpr (std::is_same<std::decay_t<T>, bool>::value) 
-            out_ << (arg ? std::string("true") : std::string("false")) 
-                << Separator;
+            out_ << (arg ? std::string("true") : std::string("false"));
         else 
             return Error::CorruptedArchive;
         if constexpr (sizeof...(args) == 0)
             return Error::NoError;
-        else
+        else {
+            out_ << Separator;
             return process(std::forward<TArgs>(args)...);
+        }
     }
 };
